@@ -1,4 +1,3 @@
-
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mrUlrik/Cackle.ConsoleApp/main)
 [![CodeFactor](https://www.codefactor.io/repository/github/mrulrik/cackle.consoleapp/badge)](https://www.codefactor.io/repository/github/mrulrik/cackle.consoleapp)
 ![GitHub tag (with filter)](https://img.shields.io/github/v/tag/mrUlrik/Cackle.ConsoleApp)

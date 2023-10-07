@@ -17,7 +17,3 @@ public interface ICommandAsync<in TArgs> where TArgs : ICommandArgs
     /// <returns>Application exit code</returns>
     Task<int> InvokeAsync(TArgs args, CancellationToken ct);
 }
-
-
-
-// Comments add to test tag
