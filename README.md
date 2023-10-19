@@ -9,7 +9,7 @@ A library that provides logging, dependency injection, command line parsing, and
 
 This library utilizes and provides the following:
 * [Ardalis.GuardGlauses](https://github.com/ardalis/GuardClauses)
-	* Basic predefined, guard clauses with simpler than home-brew expansion
+	* Basic predefined, guard clauses with simpler than home-brew expansion with the ability to quickly and easily add your own
 * [CommandLineParser](https://github.com/commandlineparser/commandline)
 	* Provides advanced command line specification with very clean, easy to read implementation
 * [Serilog](https://serilog.net/)
@@ -24,15 +24,15 @@ This library utilizes and provides the following:
 ## Opinionated
 Obviously there are opinions here, particularly the library choices (especially DI), but an unexpected opinion may be found when using IOptions. *The library does not ask for named options or an IConfigurationSection.* 
 
-Instead, it defaults to using the name of the [class you are using](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/5e02b73993778983650816ce8e0690fd983358a0/examples/DataFetchExample/Configuration/RandomConfig.cs) for IOptions. Additionally, when parsing [appsettings.json](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/5e02b73993778983650816ce8e0690fd983358a0/examples/DataFetchExample/appsettings.json) it looks for this name as a child to the "Commands" key.
+Instead, it defaults to using the name of the [class you are using](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/examples/DataFetchExample/Configuration/RandomConfig.cs) for IOptions. Additionally, when parsing [appsettings.json](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/examples/DataFetchExample/appsettings.json) it looks for this name as a child to the "Commands" key.
 
 ## Examples
 
-### [DataFetchExample](https://github.com/mrUlrik/Cackle.ConsoleApp/tree/bb9ff60b354384cb0426769bfa254e8f4480191f/examples/DataFetchExample)
+### [DataFetchExample](https://github.com/mrUlrik/Cackle.ConsoleApp/tree/main/examples/DataFetchExample)
 Demonstration of configuring a console command that uses a web-based API, configured in appsettings.json, to fetch a string from the Internet and print to console.
 
-### [HelloWorldExample](https://github.com/mrUlrik/Cackle.ConsoleApp/tree/bb9ff60b354384cb0426769bfa254e8f4480191f/examples/SimpleExample)
-Your run of the mill Hello World. Program.cs registers a class inheriting [ICommand](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/5e02b73993778983650816ce8e0690fd983358a0/src/ICommand.cs) ([ICommandAsync](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/5e02b73993778983650816ce8e0690fd983358a0/src/ICommandAsync.cs) also available)--quite familiar to those who use Microsoft.DependencyInjection--with the option of adding a third type to configure IOptions.
+### [HelloWorldExample](https://github.com/mrUlrik/Cackle.ConsoleApp/tree/main/examples/SimpleExample)
+Your run of the mill Hello World. Program.cs registers a class inheriting [ICommand](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/src/ICommand.cs) ([ICommandAsync](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/src/ICommandAsync.cs) also available)--quite familiar to those who use Microsoft.DependencyInjection--with the option of adding a third type to configure IOptions.
 
 #### Program.cs
 * Create the builder,
