@@ -18,6 +18,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cackle.ConsoleApp" Version="8.0.0-rc.1.23419.4" />
+    <PackageReference Include="Cackle.ConsoleApp" Version="0.1.1-beta.1" />
   </ItemGroup>
 </Project>
