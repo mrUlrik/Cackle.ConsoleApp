@@ -476,5 +476,4 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # Build process
-GitVersion.yml
 Publish.ps1

@@ -54,7 +54,7 @@ return host.Build().Run(args);
 
 #### HelloWorld.cs
 Inherit `ICommand<TArgs>` with your CommandLineParser argument specification (`TArgs`) which will require `Invoke` (or `InvokeAsync` if using `ICommandAsync<TArgs>`) where you perform work.
-```
+```cs
 using Cackle.ConsoleApp;
 using CommandLine;
 
@@ -80,7 +80,7 @@ internal class HelloWorld : ICommand<HelloWorldArgs>
 }
 ```
 Finally, let CommandLineParser come in and do the heavy lifting.
-```
+```cs
 /// <summary>
 ///     Reply with a greeting
 /// </summary>
