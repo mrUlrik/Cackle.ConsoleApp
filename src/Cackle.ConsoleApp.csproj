@@ -19,6 +19,7 @@
 		<PackageTags>command line,command line framework,command line parser,console,console framework,console parser,dependency injection,logging,</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	
 	<ItemGroup>
 		<None Include="..\docs\images\package.png">
 			<Pack>True</Pack>
