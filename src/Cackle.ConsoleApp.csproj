@@ -40,9 +40,7 @@
 		<None Remove="version.json" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Ardalis.GuardClauses" Version="4.1.1">
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		<PackageReference Include="Ardalis.GuardClauses" Version="4.1.1"/>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
