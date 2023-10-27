@@ -158,6 +158,7 @@ public class CommandHostBuilder
         where TCommandAsync : ICommandAsync<TArgs>
         where TArgs : ICommandArgs
     {
+
         _commands.Add(typeof(TCommandAsync), typeof(TArgs), false);
         _services.AddScoped(typeof(TCommandAsync));
     }
