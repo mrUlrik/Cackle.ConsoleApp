@@ -14,11 +14,14 @@ namespace DataFetchExample.Commands;
 internal class RandomCommand(
     ILogger<FetchCommand> log,
     IOptions<RandomConfig> config,
+    IHostEnv env,
     NumbersApi api
 ) : ICommandAsync<RandomArgs>
 {
     public async Task<int> InvokeAsync(RandomArgs args, CancellationToken cancellationToken)
     {
+        log.LogInformation("Operating in {env}", env.Environment);
+
         var response = await api.GetRandomAsync(
             config.Value.MinInteger, 
             config.Value.MaxInteger, 

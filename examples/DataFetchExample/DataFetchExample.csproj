@@ -18,8 +18,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cackle.ConsoleApp" Version="8.0.0-rc.1.23419.4" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-rc.1.23419.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cackle.ConsoleApp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resource.Designer.cs">

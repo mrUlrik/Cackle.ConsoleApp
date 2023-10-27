@@ -18,6 +18,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cackle.ConsoleApp" Version="0.1.1-beta.1" />
+    <ProjectReference Include="..\..\src\Cackle.ConsoleApp.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Cackle.ConsoleApp.Features;
 using Cackle.ConsoleApp.Internal;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
@@ -28,14 +29,19 @@ public class CommandHostBuilder
     private IConfiguration? _config;
 
     /// <summary>
-    ///     Environment the host is currently running in
-    /// </summary>
-    private string? _env;
-
-    /// <summary>
     ///     The <see cref="Parser" /> that will handle parsing the command line arguments
     /// </summary>
     private Parser? _parser;
+
+    /// <summary>
+    ///     Running Environment
+    /// </summary>
+    public IHostEnv Environment;
+
+    internal CommandHostBuilder()
+    {
+        Environment = new HostEnv();
+    }
 
     /// <summary>
     ///     Configuration populated from configuration sources
@@ -57,16 +63,15 @@ public class CommandHostBuilder
     /// </summary>
     private void Configure()
     {
-        _env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? AppConstants.Environment.Production;
-
         _config = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", false)
-            .AddJsonFile($"appsettings.{_env}.json", true)
+            .AddJsonFile($"appsettings.{Environment.Environment}.json", true)
             .Build();
 
         Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(_config).CreateLogger();
         _services.AddLogging(l => l.AddSerilog(Log.Logger));
+        _services.AddSingleton<IHostEnv>(Environment);
     }
 
     /// <summary>
@@ -181,8 +186,6 @@ public class CommandHostBuilder
     /// </summary>
     public CommandHost Build()
     {
-        Guard.Against.Null(_env, nameof(_env), "Host environment not set");
-
         _commands.MakeReadOnly();
 
         _services.AddSingleton(Configuration);
@@ -190,6 +193,6 @@ public class CommandHostBuilder
         var provider = _services.BuildServiceProvider();
         var parser = _parser ?? Parser.Default;
 
-        return new CommandHost(_commands, provider, parser, _env);
+        return new CommandHost(_commands, provider, parser);
     }
 }

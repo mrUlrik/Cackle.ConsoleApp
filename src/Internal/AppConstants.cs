@@ -19,6 +19,11 @@ internal static class AppConstants
         ///     Running environment: Development
         /// </summary>
         internal static string Development = "Development";
+
+        /// <summary>
+        ///     Name of the environment variable to fetch the running environment
+        /// </summary>
+        internal static string VariableName = "DOTNET_ENVIRONMENT";
     }
 
     /// <summary>

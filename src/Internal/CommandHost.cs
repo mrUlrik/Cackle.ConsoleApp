@@ -36,12 +36,11 @@ public class CommandHost
     /// </summary>
     private readonly CancellationTokenSource _stopping = new();
 
-    internal CommandHost(ICommandCollection commands, IServiceProvider services, Parser parser, string environment)
+    internal CommandHost(ICommandCollection commands, IServiceProvider services, Parser parser)
     {
         _commands = commands;
         _services = services;
         _parser = parser;
-        Environment = environment;
         HostStopping = _stopping.Token;
     }
 
@@ -49,16 +48,6 @@ public class CommandHost
     ///     Tracks the state of the application
     /// </summary>
     public CancellationToken HostStopping { get; }
-
-    /// <summary>
-    ///     Environment the application is currently running in
-    /// </summary>
-    public string Environment { get; }
-
-    /// <summary>
-    ///     Is the application currently running in a production environment
-    /// </summary>
-    public bool IsProduction => AppConstants.Environment.Production == Environment;
 
     /// <summary>
     ///     Run the registered commands
