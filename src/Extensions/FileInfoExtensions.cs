@@ -1,9 +1,11 @@
-﻿namespace Cackle.ConsoleApp.Extensions;
+﻿using System.Text.RegularExpressions;
+
+namespace Cackle.ConsoleApp.Extensions;
 
 /// <summary>
 ///     Helper methods for <see cref="FileInfo" />
 /// </summary>
-public static class FileInfoExtensions
+public static partial class FileInfoExtensions
 {
     /// <summary>
     ///     Check if file is locked by another process.
@@ -31,4 +33,47 @@ public static class FileInfoExtensions
         // File not locked, return test
         return false;
     }
+
+    /// <summary>
+    ///     <para>
+    ///         Return a <see cref="FileInfo" /> with a file name suffixed with an incrementing number in the provided
+    ///         directory that has not already been used.
+    ///     </para>
+    ///     <para>
+    ///         If <c>C:\Temp\Sample.xlsx</c> is provided but the file already exists, <c>:\Temp\Sample (002).xlsx</c> may be
+    ///         returned.
+    ///     </para>
+    /// </summary>
+    /// <param name="fileInfo">Preferred file path.</param>
+    /// <returns>An available file path.</returns>
+    public static FileInfo CreateFileName(this FileInfo fileInfo)
+    {
+        ulong i = 2;
+
+        var fileName = fileInfo.Name.Replace(fileInfo.Extension, string.Empty);
+        var match = EndingDigits().Match(fileName);
+        if (match.Groups["Digits"].Success)
+        {
+            var suffix = match.Groups["Digits"].Value.TrimStart('(').TrimEnd(')');
+            if (ulong.TryParse(suffix, out var x))
+            {
+                fileName = fileName.Replace(match.Groups["Digits"].Value, string.Empty).Trim();
+                i = ++x;
+            }
+        }
+
+        while (true)
+        {
+            if (!fileInfo.Exists) return fileInfo;
+
+            var newFileName = string.Concat(fileName, $" ({i:000})", fileInfo.Extension);
+            var filePath = Path.Join(fileInfo.DirectoryName, newFileName);
+            fileInfo = new FileInfo(filePath);
+
+            i++;
+        }
+    }
+
+    [GeneratedRegex("(?<Digits>\\(?[0-9]+\\)?)?$")]
+    private static partial Regex EndingDigits();
 }
