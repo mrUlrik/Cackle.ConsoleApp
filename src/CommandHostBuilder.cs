@@ -65,7 +65,7 @@ public class CommandHostBuilder
     {
         _config = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", false)
+            .AddJsonFile("appsettings.json", true)
             .AddJsonFile($"appsettings.{Environment.Environment}.json", true)
             .Build();
 
