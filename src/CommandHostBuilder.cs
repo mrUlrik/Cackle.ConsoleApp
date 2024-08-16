@@ -29,6 +29,11 @@ public class CommandHostBuilder
     private IConfiguration? _config;
 
     /// <summary>
+    ///     Serilog configuration.
+    /// </summary>
+    private readonly LoggerConfiguration _loggerConfiguration = new();
+
+    /// <summary>
     ///     The <see cref="Parser" /> that will handle parsing the command line arguments
     /// </summary>
     private Parser? _parser;
@@ -69,9 +74,10 @@ public class CommandHostBuilder
             .AddJsonFile($"appsettings.{Environment.Environment}.json", true)
             .Build();
 
-        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(_config).CreateLogger();
-        _services.AddLogging(l => l.AddSerilog(Log.Logger));
-        _services.AddSingleton<IHostEnv>(Environment);
+        _loggerConfiguration.ReadFrom.Configuration(_config);
+        //Log.Logger = _loggerConfiguration.ReadFrom.Configuration(_config).CreateLogger();
+        //_services.AddLogging(l => l.AddSerilog(Log.Logger));
+        _services.AddSingleton(Environment);
     }
 
     /// <summary>
@@ -80,10 +86,18 @@ public class CommandHostBuilder
     ///         CommandLine ParserSettings
     ///     </see>
     /// </summary>
-    /// <param name="configuration"></param>
     public void ConfigureParser(Action<ParserSettings> configuration)
     {
         _parser = new Parser(configuration);
+    }
+
+    /// <summary>
+    ///     Allows configuration of Serilog without the requirement of a configuration file.
+    /// </summary>
+    public void ConfigureLogging(Action<LoggerConfiguration> configuration)
+    {
+        configuration(_loggerConfiguration);
+        //Log.Logger = _loggerConfiguration.CreateLogger();
     }
 
     /// <summary>
@@ -110,7 +124,7 @@ public class CommandHostBuilder
     }
 
     /// <summary>
-    ///     Registers an synchronous command <typeparamref name="TCommand" /> that will be invoked with
+    ///     Registers a synchronous command <typeparamref name="TCommand" /> that will be invoked with
     ///     <see cref="CommandHost.Run" /> with it's command line argument specification <typeparamref name="TArgs" />
     /// </summary>
     /// <typeparam name="TCommand">The command to be executed at the console.</typeparam>
@@ -158,7 +172,6 @@ public class CommandHostBuilder
         where TCommandAsync : ICommandAsync<TArgs>
         where TArgs : ICommandArgs
     {
-
         _commands.Add(typeof(TCommandAsync), typeof(TArgs), false);
         _services.AddScoped(typeof(TCommandAsync));
     }
@@ -187,6 +200,9 @@ public class CommandHostBuilder
     /// </summary>
     public CommandHost Build()
     {
+        Log.Logger = _loggerConfiguration.CreateLogger();
+        _services.AddLogging(l => l.AddSerilog(Log.Logger));
+
         _commands.MakeReadOnly();
 
         _services.AddSingleton(Configuration);

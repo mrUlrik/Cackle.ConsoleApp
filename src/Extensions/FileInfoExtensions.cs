@@ -50,6 +50,10 @@ public static partial class FileInfoExtensions
     {
         ulong i = 2;
 
+        var directory = fileInfo.Directory;
+        if (directory is null) throw new DirectoryNotFoundException();
+        if (!directory.Exists) directory.Create();
+
         var fileName = fileInfo.Name.Replace(fileInfo.Extension, string.Empty);
         var match = EndingDigits().Match(fileName);
         if (match.Groups["Digits"].Success)

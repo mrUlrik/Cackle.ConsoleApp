@@ -27,11 +27,6 @@ public class CommandHost
     private readonly Parser _parser;
 
     /// <summary>
-    ///     Services registered during build time
-    /// </summary>
-    private readonly IServiceProvider _services;
-
-    /// <summary>
     ///     Allows for a safe, early termination of asynchronous command execution
     /// </summary>
     private readonly CancellationTokenSource _stopping = new();
@@ -39,10 +34,15 @@ public class CommandHost
     internal CommandHost(ICommandCollection commands, IServiceProvider services, Parser parser)
     {
         _commands = commands;
-        _services = services;
+        Services = services;
         _parser = parser;
         HostStopping = _stopping.Token;
     }
+
+    /// <summary>
+    ///     Services available to the application.
+    /// </summary>
+    public IServiceProvider Services { get; }
 
     /// <summary>
     ///     Tracks the state of the application
@@ -67,12 +67,12 @@ public class CommandHost
         foreach (var command in _commands)
         {
             if (command.ArgumentType != parserResult.Value.GetType()) continue;
-            var service = _services.GetRequiredService(command.CommandType);
+            var service = Services.GetRequiredService(command.CommandType);
 
             var method = service.GetType().GetMethod(nameof(ICommand<ICommandArgs>.Invoke));
             Guard.Against.Null(method, nameof(method));
 
-            if (method.Invoke(service, new[] { parserResult.Value }) is not int result)
+            if (method.Invoke(service, [parserResult.Value]) is not int result)
                 throw new TypeLoadException("Received unexpected type upon invocation");
 
             return result;
@@ -116,12 +116,12 @@ public class CommandHost
         foreach (var command in _commands)
         {
             if (command.ArgumentType != parserResult.Value.GetType()) continue;
-            var service = _services.GetRequiredService(command.CommandType);
+            var service = Services.GetRequiredService(command.CommandType);
 
             var method = service.GetType().GetMethod(nameof(ICommandAsync<ICommandArgs>.InvokeAsync));
             Guard.Against.Null(method, nameof(method));
 
-            if (method.Invoke(service, new[] { parserResult.Value, ct }) is not Task<int> result)
+            if (method.Invoke(service, [parserResult.Value, ct]) is not Task<int> result)
                 throw new TypeLoadException("Received unexpected type upon invocation");
 
             try
