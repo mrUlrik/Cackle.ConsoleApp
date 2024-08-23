@@ -97,7 +97,6 @@ public class CommandHostBuilder
     public void ConfigureLogging(Action<LoggerConfiguration> configuration)
     {
         configuration(_loggerConfiguration);
-        //Log.Logger = _loggerConfiguration.CreateLogger();
     }
 
     /// <summary>

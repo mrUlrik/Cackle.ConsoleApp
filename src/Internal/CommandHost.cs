@@ -1,4 +1,5 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Runtime.CompilerServices;
+using Ardalis.GuardClauses;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
