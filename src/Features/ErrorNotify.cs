@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using Serilog;
 
 namespace Cackle.ConsoleApp.Features;
 
@@ -114,6 +115,7 @@ public static class ErrorNotify
         catch (Exception ex)
         {
             SendMail(configureMail, ex);
+            Log.Fatal(ex, "An unhandled exception occured.");
             throw;
         }
     }
@@ -190,6 +192,7 @@ public static class ErrorNotify
         catch (Exception ex)
         {
             SendMail(configureMail, ex);
+            Log.Fatal(ex, "An unhandled exception occured.");
             throw;
         }
     }

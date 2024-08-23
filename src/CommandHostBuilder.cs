@@ -75,8 +75,6 @@ public class CommandHostBuilder
             .Build();
 
         _loggerConfiguration.ReadFrom.Configuration(_config);
-        //Log.Logger = _loggerConfiguration.ReadFrom.Configuration(_config).CreateLogger();
-        //_services.AddLogging(l => l.AddSerilog(Log.Logger));
         _services.AddSingleton(Environment);
     }
 
