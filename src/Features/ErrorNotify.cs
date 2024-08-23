@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace Cackle.ConsoleApp.Features;
@@ -55,6 +56,29 @@ public static class ErrorNotify
     /// </param>
     /// <param name="args">An array of strings used to call the method.</param>
     /// <param name="configureMail">
+    ///     <see cref="IConfigurationSection" /> containing keys that can be mapped to see <see cref="ErrorMailOptions" />.
+    ///     <b>Note:</b> The properties <see cref="ErrorMailOptions.From" /> and <see cref="ErrorMailOptions.SmtpHost" />; and
+    ///     least one of <see cref="ErrorMailOptions.To" />, <see cref="ErrorMailOptions.Cc" />, or
+    ///     <see cref="ErrorMailOptions.Bcc" /> are required.
+    /// </param>
+    /// <returns>If no exception is encountered, forwards the method return; otherwise an exception is thrown.</returns>
+    public static int MailOnException(Func<string[], int> method, string[] args, IConfigurationSection configureMail)
+    {
+        var errorMailOptions = configureMail.Get<ErrorMailOptions>();
+        ArgumentNullException.ThrowIfNull(errorMailOptions);
+        return MailOnException(method, args, errorMailOptions);
+    }
+
+    /// <summary>
+    ///     Execute a method that expects an argument of an array of strings, such as
+    ///     <c>CommandHostBuilder.Create().Build().Run</c>, then catch any uncaught exceptions before sending an email
+    ///     notification of the details.
+    /// </summary>
+    /// <param name="method">
+    ///     A method that expects a single <see langword="string[]" /> and returns an <see langword="int" />.
+    /// </param>
+    /// <param name="args">An array of strings used to call the method.</param>
+    /// <param name="configureMail">
     ///     SMTP and mail message options for the outgoing message. <b>Note:</b> The properties
     ///     <see cref="ErrorMailOptions.From" /> and <see cref="ErrorMailOptions.SmtpHost" />; and least one of
     ///     <see cref="ErrorMailOptions.To" />, <see cref="ErrorMailOptions.Cc" />, or <see cref="ErrorMailOptions.Bcc" /> are
@@ -66,7 +90,7 @@ public static class ErrorNotify
         var errorMailOptions = configureMail.Invoke();
         return MailOnException(method, args, errorMailOptions);
     }
-    
+
     /// <summary>
     ///     Execute a method that expects an argument of an array of strings, such as
     ///     <c>CommandHostBuilder.Create().Build().Run</c>, then catch any uncaught exceptions before sending an email
@@ -119,7 +143,31 @@ public static class ErrorNotify
             throw;
         }
     }
-    
+
+    /// <summary>
+    ///     Execute a method that expects an argument of an array of strings, such as
+    ///     <c>CommandHostBuilder.Create().Build().RunAsync</c>, then catch any uncaught exceptions before sending an email
+    ///     notification of the details.
+    /// </summary>
+    /// <param name="method">
+    ///     A method that expects a single <see langword="string[]" /> and returns an <see langword="int" />.
+    /// </param>
+    /// <param name="args">An array of strings used to call the method.</param>
+    /// <param name="configureMail">
+    ///     <see cref="IConfigurationSection" /> containing keys that can be mapped to see <see cref="ErrorMailOptions" />.
+    ///     <b>Note:</b> The properties <see cref="ErrorMailOptions.From" /> and <see cref="ErrorMailOptions.SmtpHost" />; and
+    ///     least one of <see cref="ErrorMailOptions.To" />, <see cref="ErrorMailOptions.Cc" />, or
+    ///     <see cref="ErrorMailOptions.Bcc" /> are required.
+    /// </param>
+    /// <returns>If no exception is encountered, forwards the method return; otherwise an exception is thrown.</returns>
+    public static Task<int> MailOnException(Func<string[], Task<int>> method, string[] args,
+        IConfigurationSection configureMail)
+    {
+        var errorMailOptions = configureMail.Get<ErrorMailOptions>();
+        ArgumentNullException.ThrowIfNull(errorMailOptions);
+        return MailOnException(method, args, errorMailOptions);
+    }
+
     /// <summary>
     ///     Execute a method that expects an argument of an array of strings, such as
     ///     <c>CommandHostBuilder.Create().Build().RunAsync</c>, then catch any uncaught exceptions before sending an email
@@ -136,7 +184,8 @@ public static class ErrorNotify
     ///     required.
     /// </param>
     /// <returns>If no exception is encountered, forwards the method return; otherwise an exception is thrown.</returns>
-    public static Task<int> MailOnException(Func<string[], Task<int>> method, string[] args, Func<ErrorMailOptions> configureMail)
+    public static Task<int> MailOnException(Func<string[], Task<int>> method, string[] args,
+        Func<ErrorMailOptions> configureMail)
     {
         var errorMailOptions = configureMail.Invoke();
         return MailOnException(method, args, errorMailOptions);
