@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34112.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cackle.ConsoleApp", "Cackle.ConsoleApp.csproj", "{3BC8AAE5-C747-459A-93F8-9C6189B7A7AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample", "..\examples\SimpleExample\SimpleExample.csproj", "{6A28A653-BE99-450A-A13F-DC01143E3144}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{3BC8AAE5-C747-459A-93F8-9C6189B7A7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BC8AAE5-C747-459A-93F8-9C6189B7A7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC8AAE5-C747-459A-93F8-9C6189B7A7AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A28A653-BE99-450A-A13F-DC01143E3144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A28A653-BE99-450A-A13F-DC01143E3144}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A28A653-BE99-450A-A13F-DC01143E3144}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A28A653-BE99-450A-A13F-DC01143E3144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
