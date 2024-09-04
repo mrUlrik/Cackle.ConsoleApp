@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Cackle.ConsoleApp;
 
 /// <summary>
@@ -19,9 +21,19 @@ public class CommandHostBuilder
     private readonly CommandCollection _commands = new();
 
     /// <summary>
+    ///     Serilog configuration.
+    /// </summary>
+    private readonly LoggerConfiguration _loggerConfiguration = new();
+
+    /// <summary>
     ///     Services registered with the host
     /// </summary>
     private readonly ServiceCollection _services = new();
+
+    /// <summary>
+    ///     Running Environment
+    /// </summary>
+    public readonly IHostEnv Environment;
 
     /// <summary>
     ///     Configuration provided by Microsoft.Extensions.Configuration
@@ -29,19 +41,9 @@ public class CommandHostBuilder
     private IConfiguration? _config;
 
     /// <summary>
-    ///     Serilog configuration.
-    /// </summary>
-    private readonly LoggerConfiguration _loggerConfiguration = new();
-
-    /// <summary>
     ///     The <see cref="Parser" /> that will handle parsing the command line arguments
     /// </summary>
     private Parser? _parser;
-
-    /// <summary>
-    ///     Running Environment
-    /// </summary>
-    public IHostEnv Environment;
 
     internal CommandHostBuilder()
     {

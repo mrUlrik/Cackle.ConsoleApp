@@ -13,17 +13,17 @@ internal static class AppConstants
         /// <summary>
         ///     Running environment: Production
         /// </summary>
-        internal static string Production = "Production";
+        internal const string Production = "Production";
 
         /// <summary>
         ///     Running environment: Development
         /// </summary>
-        internal static string Development = "Development";
+        internal const string Development = "Development";
 
         /// <summary>
         ///     Name of the environment variable to fetch the running environment
         /// </summary>
-        internal static string VariableName = "DOTNET_ENVIRONMENT";
+        internal const string VariableName = "DOTNET_ENVIRONMENT";
     }
 
     /// <summary>
@@ -35,6 +35,6 @@ internal static class AppConstants
         ///     The <see cref="Microsoft.Extensions.Configuration.IConfigurationSection" />, starting at root, where the
         ///     configuration sections for each command are stored
         /// </summary>
-        internal static string CommandSection = "Commands";
+        internal const string CommandSection = "Commands";
     }
 }

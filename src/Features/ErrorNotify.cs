@@ -4,6 +4,8 @@ using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Cackle.ConsoleApp.Features;
 
 /// <summary>

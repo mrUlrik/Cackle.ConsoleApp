@@ -48,6 +48,34 @@ public class CommandHost : IDisposable, IAsyncDisposable
     /// </summary>
     public CancellationToken HostStopping => _stopping.Token;
 
+    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync" />
+    public async ValueTask DisposeAsync()
+    {
+        await CastAndDispose(_parser);
+        await CastAndDispose(_stopping);
+
+        GC.SuppressFinalize(this);
+
+        return;
+
+        static async ValueTask CastAndDispose(IDisposable resource)
+        {
+            if (resource is IAsyncDisposable resourceAsyncDisposable)
+                await resourceAsyncDisposable.DisposeAsync();
+            else
+                resource.Dispose();
+        }
+    }
+
+    /// <inheritdoc cref="IDisposable.Dispose" />
+    public void Dispose()
+    {
+        _parser.Dispose();
+        _stopping.Dispose();
+
+        GC.SuppressFinalize(this);
+    }
+
     /// <summary>
     ///     Run the registered commands
     /// </summary>
@@ -72,7 +100,7 @@ public class CommandHost : IDisposable, IAsyncDisposable
             Guard.Against.Null(method, nameof(method));
 
             if (method.Invoke(service, [parserResult.Value]) is not int result)
-                throw new TypeLoadException("Received unexpected type upon invocation");
+                throw new TypeLoadException("Received unexpected type upon command completion");
 
             return result;
         }
@@ -103,7 +131,7 @@ public class CommandHost : IDisposable, IAsyncDisposable
     /// <param name="args">Command line arguments provided by application</param>
     /// <param name="ct">Provides a safe early termination of command</param>
     /// <returns>Exit code</returns>
-    internal async Task<int> RunAsync(string[] args, CancellationToken ct)
+    private async Task<int> RunAsync(string[] args, CancellationToken ct)
     {
         var availableCommands = _commands.Where(r => !r.IsSynchronous);
         var options = availableCommands.Select(c => c.ArgumentType).ToArray();
@@ -121,7 +149,7 @@ public class CommandHost : IDisposable, IAsyncDisposable
             Guard.Against.Null(method, nameof(method));
 
             if (method.Invoke(service, [parserResult.Value, ct]) is not Task<int> result)
-                throw new TypeLoadException("Received unexpected type upon invocation");
+                throw new TypeLoadException("Received unexpected type upon command completion");
 
             try
             {
@@ -133,6 +161,7 @@ public class CommandHost : IDisposable, IAsyncDisposable
             }
         }
 
+        _log.Fatal("No action taken, no commands matched parser");
         return 1;
     }
 
@@ -146,33 +175,5 @@ public class CommandHost : IDisposable, IAsyncDisposable
         _log.Information("User requested application to stop before completion");
         _stopping.Cancel();
         e.Cancel = true;
-    }
-
-    /// <inheritdoc cref="IDisposable.Dispose" />
-    public void Dispose()
-    {
-        _parser.Dispose();
-        _stopping.Dispose();
-
-        GC.SuppressFinalize(this);
-    }
-
-    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync" />
-    public async ValueTask DisposeAsync()
-    {
-        await CastAndDispose(_parser);
-        await CastAndDispose(_stopping);
-
-        GC.SuppressFinalize(this);
-
-        return;
-
-        static async ValueTask CastAndDispose(IDisposable resource)
-        {
-            if (resource is IAsyncDisposable resourceAsyncDisposable)
-                await resourceAsyncDisposable.DisposeAsync();
-            else
-                resource.Dispose();
-        }
     }
 }

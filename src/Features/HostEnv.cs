@@ -1,5 +1,7 @@
 ﻿using Cackle.ConsoleApp.Internal;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Cackle.ConsoleApp.Features;
 
 /// <summary>

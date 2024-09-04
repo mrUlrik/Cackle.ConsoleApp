@@ -1,5 +1,7 @@
 using System.Security;
 
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Cackle.ConsoleApp.Features;
 
 /// <summary>
@@ -15,19 +17,19 @@ public class ErrorMailOptions
     /// <summary>
     ///     List of email addresses the message is going to.
     /// </summary>
-    /// <remarks>One or more of <see cref="To"/>, <see cref="Cc"/>, or <see cref="Bcc"/> are required.</remarks>
+    /// <remarks>One or more of <see cref="To" />, <see cref="Cc" />, or <see cref="Bcc" /> are required.</remarks>
     public string[]? To { get; set; }
 
     /// <summary>
     ///     List of email addresses the message with be carbon copied to.
     /// </summary>
-    /// <remarks>One or more of <see cref="To"/>, <see cref="Cc"/>, or <see cref="Bcc"/> are required.</remarks>
+    /// <remarks>One or more of <see cref="To" />, <see cref="Cc" />, or <see cref="Bcc" /> are required.</remarks>
     public string[]? Cc { get; set; }
 
     /// <summary>
     ///     List of email addresses the message will be blind carbon copied to.
     /// </summary>
-    /// <remarks>One or more of <see cref="To"/>, <see cref="Cc"/>, or <see cref="Bcc"/> are required.</remarks>
+    /// <remarks>One or more of <see cref="To" />, <see cref="Cc" />, or <see cref="Bcc" /> are required.</remarks>
     public string[]? Bcc { get; set; }
 
     /// <summary>
@@ -43,7 +45,7 @@ public class ErrorMailOptions
     /// <summary>
     ///     Set to true to enable SSL encryption; defaults to false;
     /// </summary>
-    public bool EnableSsl { get; set; } = false;
+    public bool EnableSsl { get; set; }
 
     /// <summary>
     ///     The SMTP server username; defaults to blank.
