@@ -231,12 +231,12 @@ public static class ErrorNotify
     ///     required.
     /// </param>
     /// <returns>If no exception is encountered, forwards the method return; otherwise an exception is thrown.</returns>
-    public static Task<int> MailOnException(Func<string[], Task<int>> method, string[] args,
+    public static async Task<int> MailOnException(Func<string[], Task<int>> method, string[] args,
         ErrorMailOptions configureMail)
     {
         try
         {
-            return method.Invoke(args);
+            return await method.Invoke(args).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

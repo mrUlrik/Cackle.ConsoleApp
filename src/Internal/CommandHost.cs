@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -10,7 +9,7 @@ namespace Cackle.ConsoleApp.Internal;
 ///     Provides framework for a console application with advanced argument parsing and baked in features. See
 ///     <see cref="CommandHostBuilder" /> to build.
 /// </summary>
-public class CommandHost
+public class CommandHost : IDisposable, IAsyncDisposable
 {
     /// <summary>
     ///     Commands registered during build
@@ -37,7 +36,6 @@ public class CommandHost
         _commands = commands;
         Services = services;
         _parser = parser;
-        HostStopping = _stopping.Token;
     }
 
     /// <summary>
@@ -48,7 +46,7 @@ public class CommandHost
     /// <summary>
     ///     Tracks the state of the application
     /// </summary>
-    public CancellationToken HostStopping { get; }
+    public CancellationToken HostStopping => _stopping.Token;
 
     /// <summary>
     ///     Run the registered commands
@@ -148,5 +146,33 @@ public class CommandHost
         _log.Information("User requested application to stop before completion");
         _stopping.Cancel();
         e.Cancel = true;
+    }
+
+    /// <inheritdoc cref="IDisposable.Dispose" />
+    public void Dispose()
+    {
+        _parser.Dispose();
+        _stopping.Dispose();
+
+        GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync" />
+    public async ValueTask DisposeAsync()
+    {
+        await CastAndDispose(_parser);
+        await CastAndDispose(_stopping);
+
+        GC.SuppressFinalize(this);
+
+        return;
+
+        static async ValueTask CastAndDispose(IDisposable resource)
+        {
+            if (resource is IAsyncDisposable resourceAsyncDisposable)
+                await resourceAsyncDisposable.DisposeAsync();
+            else
+                resource.Dispose();
+        }
     }
 }
