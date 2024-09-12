@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Cackle.ConsoleApp.Features;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -44,6 +45,11 @@ public class CommandHost : IDisposable, IAsyncDisposable
     public IServiceProvider Services { get; }
 
     /// <summary>
+    ///     Information on the currently running environment.
+    /// </summary>
+    public IHostEnv HostEnv { get; } = new HostEnv();
+
+    /// <summary>
     ///     Tracks the state of the application
     /// </summary>
     public CancellationToken HostStopping => _stopping.Token;
@@ -83,6 +89,8 @@ public class CommandHost : IDisposable, IAsyncDisposable
     /// <returns>Exit code</returns>
     public int Run(string[] args)
     {
+        LogEnvironment();
+        
         var availableCommands = _commands.Where(r => r.IsSynchronous);
         var options = availableCommands.Select(c => c.ArgumentType).ToArray();
         Guard.Against.Zero(options.Length, nameof(options), "No synchronous commands registered");
@@ -133,6 +141,8 @@ public class CommandHost : IDisposable, IAsyncDisposable
     /// <returns>Exit code</returns>
     private async Task<int> RunAsync(string[] args, CancellationToken ct)
     {
+        LogEnvironment();
+        
         var availableCommands = _commands.Where(r => !r.IsSynchronous);
         var options = availableCommands.Select(c => c.ArgumentType).ToArray();
         Guard.Against.Zero(options.Length, nameof(options), "No asynchronous commands registered");
@@ -163,6 +173,14 @@ public class CommandHost : IDisposable, IAsyncDisposable
 
         _log.Fatal("No action taken, no commands matched parser");
         return 1;
+    }
+
+    /// <summary>
+    ///     Prints a line to the logging provider reporting the currently running environment.
+    /// </summary>
+    private void LogEnvironment()
+    {
+        _log.Information("Host Environment: {env}", HostEnv.Environment);
     }
 
     /// <summary>

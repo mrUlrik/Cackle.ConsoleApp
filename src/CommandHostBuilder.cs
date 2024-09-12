@@ -33,7 +33,7 @@ public class CommandHostBuilder
     /// <summary>
     ///     Running Environment
     /// </summary>
-    public readonly IHostEnv Environment;
+    public readonly IHostEnv HostEnv;
 
     /// <summary>
     ///     Configuration provided by Microsoft.Extensions.Configuration
@@ -47,7 +47,7 @@ public class CommandHostBuilder
 
     internal CommandHostBuilder()
     {
-        Environment = new HostEnv();
+        HostEnv = new HostEnv();
     }
 
     /// <summary>
@@ -73,11 +73,11 @@ public class CommandHostBuilder
         _config = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", true)
-            .AddJsonFile($"appsettings.{Environment.Environment}.json", true)
+            .AddJsonFile($"appsettings.{HostEnv.Environment}.json", true)
             .Build();
 
         _loggerConfiguration.ReadFrom.Configuration(_config);
-        _services.AddSingleton(Environment);
+        _services.AddSingleton(HostEnv);
     }
 
     /// <summary>
