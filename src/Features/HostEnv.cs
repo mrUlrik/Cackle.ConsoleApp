@@ -7,45 +7,69 @@ namespace Cackle.ConsoleApp.Features;
 /// <summary>
 ///     Provides basic information about the running environment
 /// </summary>
-public class HostEnv : IHostEnv
+public static class HostEnv
 {
+    private static string? _environment;
+    private static string? _baseDirectory;
+    private static string? _workingDirectory;
+
     /// <summary>
-    ///     Initializes a new <see cref="HostEnv" /> with information about the running environment
+    ///     The base directory of the currently running application.
     /// </summary>
-    public HostEnv(string? environmentName = null)
+    public static string BaseDirectory
     {
-        if (environmentName is null)
+        get
         {
-            var env = System.Environment.GetEnvironmentVariable(AppConstants.Environment.VariableName);
-            Environment = env ?? AppConstants.Environment.Production;
+            if (_baseDirectory is not null) return _baseDirectory;
+            _baseDirectory = AppContext.BaseDirectory;
+            return _baseDirectory;
         }
-        else
+    }
+
+    /// <summary>
+    ///     Gets the current working directory of the application, does not include a backslash.
+    /// </summary>
+    public static string WorkingDirectory
+    {
+        get
         {
-            Environment = environmentName;
+            if (_workingDirectory is not null) return _workingDirectory;
+            _workingDirectory = Directory.GetCurrentDirectory();
+            return _workingDirectory;
         }
     }
 
     /// <summary>
     ///     Name of running environment.
     /// </summary>
-    public string Environment { get; }
+    public static string Environment
+    {
+        get
+        {
+            if (_environment is not null) return _environment;
+
+            var env = System.Environment.GetEnvironmentVariable(AppConstants.Environment.VariableName);
+            _environment = env ?? AppConstants.Environment.Production;
+            return _environment;
+        }
+    }
 
     /// <summary>
     ///     If true, running environment name is <see cref="AppConstants.Environment.Production" />.
     /// </summary>
-    public bool IsProduction => IsEnvironment(AppConstants.Environment.Production);
+    public static bool IsProduction => IsEnvironment(AppConstants.Environment.Production);
 
     /// <summary>
     ///     If true, running environment name is <see cref="AppConstants.Environment.Development" />.
     /// </summary>
-    public bool IsDevelopment => IsEnvironment(AppConstants.Environment.Development);
+    public static bool IsDevelopment => IsEnvironment(AppConstants.Environment.Development);
 
     /// <summary>
     ///     Compares the running environment name to the provided value.
     /// </summary>
     /// <param name="environmentName">Environment name to verify.</param>
     /// <returns>True if the provided value equals the running environment.</returns>
-    public bool IsEnvironment(string environmentName)
+    public static bool IsEnvironment(string environmentName)
     {
         return string.Equals(Environment, environmentName, StringComparison.OrdinalIgnoreCase);
     }

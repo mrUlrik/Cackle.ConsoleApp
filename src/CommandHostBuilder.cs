@@ -31,11 +31,6 @@ public class CommandHostBuilder
     private readonly ServiceCollection _services = new();
 
     /// <summary>
-    ///     Running Environment
-    /// </summary>
-    public readonly IHostEnv HostEnv;
-
-    /// <summary>
     ///     Configuration provided by Microsoft.Extensions.Configuration
     /// </summary>
     private IConfiguration? _config;
@@ -44,11 +39,6 @@ public class CommandHostBuilder
     ///     The <see cref="Parser" /> that will handle parsing the command line arguments
     /// </summary>
     private Parser? _parser;
-
-    internal CommandHostBuilder()
-    {
-        HostEnv = new HostEnv();
-    }
 
     /// <summary>
     ///     Configuration populated from configuration sources
@@ -77,7 +67,6 @@ public class CommandHostBuilder
             .Build();
 
         _loggerConfiguration.ReadFrom.Configuration(_config);
-        _services.AddSingleton(HostEnv);
     }
 
     /// <summary>

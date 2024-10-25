@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
@@ -20,11 +22,15 @@ public static class ErrorNotify
                                        <p>Command executed:</p>
                                        <code>%%FullPath%% %%Arguments%%</code>
                                        <p>Exception encountered:</p>
-                                       <code>%%Exception%%</code>
+                                       <code>(%%HResult%%) %%Exception%%</code>
+                                       <p>Data, if available:</p>
+                                       <code>%%Data%%</code>
                                        <p>Stack trace:</p>
                                        <code>%%StackTrace%%</code>
                                        <p>Inner exception, if any:</p>
-                                       <code>%%InnerException%%</code>
+                                       <code>(%%InnerHResult%%) %%InnerException%%</code>
+                                       <p>Inner data, if available:</p>
+                                       <code>%%InnerData%%</code>
                                        <p>Inner stack trace, if any:</p>
                                        <code>%%InnerStackTrace%%</code>
                                        """;
@@ -36,13 +42,25 @@ public static class ErrorNotify
                                        %%FullPath%% %%Arguments%%
 
                                        Exception encountered:
-                                       %%Exception%%
+                                       (%%HResult%%) %%Exception%%
+
+                                       Data, if available:
+                                       %%Data%%
+
+                                       Source:
+                                       %%Source%%
 
                                        Stack trace:
                                        %%StackTrace%%
 
                                        Inner exception, if any:
-                                       %%InnerException%%
+                                       (%%InnerHResult%%) %%InnerException%%
+
+                                       Inner Data, if available:
+                                       %%InnerData%%
+
+                                       Inner source, if any:
+                                       %%InnerSource%%
 
                                        Inner stack trace, if any:
                                        %%InnerStackTrace%%
@@ -266,9 +284,15 @@ public static class ErrorNotify
         content = content.Replace("%%ApplicationName%%", process.FriendlyName);
         content = content.Replace("%%FullPath%%", Path.Join(process.FullName, process.FriendlyName));
         content = content.Replace("%%Arguments%%", process.Arguments);
+        content = content.Replace("%%HResult%%", exception.HResult.ToString());
         content = content.Replace("%%Exception%%", exception.Message);
+        content = content.Replace("%%Data%%", DataToString(exception.Data));
+        content = content.Replace("%%Source%%", exception.Source);
         content = content.Replace("%%StackTrace%%", exception.StackTrace);
+        content = content.Replace("%%InnerHResultException%%", exception.InnerException?.HResult.ToString());
         content = content.Replace("%%InnerException%%", exception.InnerException?.Message);
+        content = content.Replace("%%InnerData%%", DataToString(exception.Data));
+        content = content.Replace("%%InnerSource%%", exception.InnerException?.Source);
         content = content.Replace("%%InnerStackTrace%%", exception.InnerException?.StackTrace);
 
         message.Subject = Subject.Replace("%%ApplicationName%%", process.FriendlyName);
@@ -286,6 +310,26 @@ public static class ErrorNotify
 
         smtpClient.EnableSsl = options.EnableSsl;
         smtpClient.Send(message);
+    }
+
+    /// <summary>
+    ///     Convert exception data to a string.
+    /// </summary>
+    /// <param name="data">The data provided in an exception.</param>
+    /// <returns>String containing data from the object.</returns>
+    private static string DataToString(IDictionary? data)
+    {
+        if (data is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (DictionaryEntry item in data)
+        {
+            sb.Append(item.Key);
+            sb.Append(": ");
+            sb.AppendLine(item.Value?.ToString());
+        }
+
+        return sb.ToString();
     }
 
     /// <summary>

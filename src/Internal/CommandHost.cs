@@ -45,11 +45,6 @@ public class CommandHost : IDisposable, IAsyncDisposable
     public IServiceProvider Services { get; }
 
     /// <summary>
-    ///     Information on the currently running environment.
-    /// </summary>
-    public IHostEnv HostEnv { get; } = new HostEnv();
-
-    /// <summary>
     ///     Tracks the state of the application
     /// </summary>
     public CancellationToken HostStopping => _stopping.Token;
