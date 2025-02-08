@@ -50,34 +50,35 @@ public static partial class FileInfoExtensions
     {
         ulong i = 2;
 
+        if (!fileInfo.Exists) return fileInfo;
+
         var directory = fileInfo.Directory;
         if (directory is null) throw new DirectoryNotFoundException();
         if (!directory.Exists) directory.Create();
 
-        var fileName = fileInfo.Name.Replace(fileInfo.Extension, string.Empty);
+        var fileName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
         var match = EndingDigits().Match(fileName);
         if (match.Groups["Digits"].Success)
         {
-            var suffix = match.Groups["Digits"].Value.TrimStart('(').TrimEnd(')');
+            fileName = EndingDigits().Replace(fileName, string.Empty);
+
+            var suffix = match.Groups["Digits"].Value;
             if (ulong.TryParse(suffix, out var x))
-            {
-                fileName = fileName.Replace(match.Groups["Digits"].Value, string.Empty).Trim();
                 i = ++x;
-            }
         }
 
         while (true)
         {
-            if (!fileInfo.Exists) return fileInfo;
-
-            var newFileName = string.Concat(fileName, $" ({i:000})", fileInfo.Extension);
-            var filePath = Path.Join(fileInfo.DirectoryName, newFileName);
+            var newFileName = string.Concat(fileName, $" {i:000}", fileInfo.Extension);
+            var filePath = Path.Join(directory.FullName, newFileName);
             fileInfo = new FileInfo(filePath);
+
+            if (!fileInfo.Exists) return fileInfo;
 
             i++;
         }
     }
 
-    [GeneratedRegex("(?<Digits>\\(?[0-9]+\\)?)?$")]
+    [GeneratedRegex("(?<Digits>[0-9]+)$")]
     private static partial Regex EndingDigits();
 }
