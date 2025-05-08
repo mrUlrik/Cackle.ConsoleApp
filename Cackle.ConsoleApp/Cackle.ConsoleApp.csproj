@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Cackle.ConsoleApp</PackageId>
+        <Title>Cackle.ConsoleApp</Title>
+        <Authors>mrUlrik</Authors>
+        <Company>mrUlrik</Company>
+        <Description>Cackle.ConsoleApp is a lightweight library that enhances the Spectre.Console framework by introducing features commonly found in modern .NET console applications.</Description>
+        <Copyright>mrUlrik</Copyright>
+        <PackageProjectUrl>https://github.com/mrUlrik/Cackle.ConsoleApp</PackageProjectUrl>
+        <PackageIcon>package.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/mrUlrik/Cackle.ConsoleApp.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>command line,command line framework,command line parser,console,console framework,console parser,dependency injection,logging,</PackageTags>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>bin\Release\Cackle.ConsoleApp.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\resources\package.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE.txt">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Cackle.ConsoleApp.Extensions.Logging.SpectreConsole"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="[8.0.0,9)"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[8.0.0,9)"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="[8.0.0,9)"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="[9.0.0,10)"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[9.0.0,10)"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="[9.0.0,10)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\External\spectre.console\src\Spectre.Console.Cli\Spectre.Console.Cli.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="GitVersion.MsBuild" Version="6.3.0" PrivateAssets="all"/>
+    </ItemGroup>
+
+</Project>
