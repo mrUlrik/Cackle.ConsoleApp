@@ -21,14 +21,14 @@ namespace Cackle.ConsoleApp.Extensions.Logging.SpectreConsole {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Cackle_ConsoleApp_Extensions_Logging_SpectreConsole {
+    internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Cackle_ConsoleApp_Extensions_Logging_SpectreConsole() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -38,8 +38,7 @@ namespace Cackle.ConsoleApp.Extensions.Logging.SpectreConsole {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cackle.ConsoleApp.Extensions.Logging.SpectreConsole.Cackle.ConsoleApp.Extensions." +
-                            "Logging.SpectreConsole", typeof(Cackle_ConsoleApp_Extensions_Logging_SpectreConsole).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cackle.ConsoleApp.Extensions.Logging.SpectreConsole.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +60,47 @@ namespace Cackle.ConsoleApp.Extensions.Logging.SpectreConsole {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum queue length ({0}) for the SpectreConsole logger must be greater than 0..
+        ///   Looks up a localized string similar to Failed to convert configuration value at &apos;{0}&apos; to type &apos;{1}&apos;..
         /// </summary>
-        internal static string ArgumentOutOfRange_MaxQueueLength {
+        internal static string InvalidConfigurationData {
             get {
-                return ResourceManager.GetString("ArgumentOutOfRange_MaxQueueLength", resourceCulture);
+                return ResourceManager.GetString("InvalidConfigurationData", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Queue modes ({0}) supported by SpectreConsole is Wait or DropWrite..
+        ///   Looks up a localized string similar to {0} is an unsupported LogFormat placeholder..
         /// </summary>
-        internal static string ArgumentOutOfRangeException_QueueFullMode {
+        internal static string InvalidPlaceholder {
             get {
-                return ResourceManager.GetString("ArgumentOutOfRangeException_QueueFullMode", resourceCulture);
+                return ResourceManager.GetString("InvalidPlaceholder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} messages have been dropped from the logging queue..
+        ///   Looks up a localized string similar to {0} must be larger than zero..
         /// </summary>
-        internal static string Warning_MessagesDropped {
+        internal static string MaxQueueLengthBadValue {
             get {
-                return ResourceManager.GetString("Warning_MessagesDropped", resourceCulture);
+                return ResourceManager.GetString("MaxQueueLengthBadValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not a supported queue mode value..
+        /// </summary>
+        internal static string QueueModeNotSupported {
+            get {
+                return ResourceManager.GetString("QueueModeNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} message(s) dropped because of queue size limit. Increase the queue size or decrease logging verbosity to avoid this. You may change `ConsoleLoggerQueueFullMode` to stop dropping messages..
+        /// </summary>
+        internal static string WarningMessageOnDrop {
+            get {
+                return ResourceManager.GetString("WarningMessageOnDrop", resourceCulture);
             }
         }
     }

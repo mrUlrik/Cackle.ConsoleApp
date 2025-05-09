@@ -1,0 +1,7 @@
+﻿version: "1.0"
+profile:
+  name: qodana.starter
+include:
+  - name: MemberCanBePrivate.Global
+  - name: MemberCanBeProtected.Global
+  - name: CA1816

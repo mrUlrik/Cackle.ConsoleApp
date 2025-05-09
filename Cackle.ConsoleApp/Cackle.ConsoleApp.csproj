@@ -59,11 +59,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\External\spectre.console\src\Spectre.Console.Cli\Spectre.Console.Cli.csproj"/>
+        <PackageReference Include="GitVersion.MsBuild" Version="6.3.0" PrivateAssets="all"/>
+        <PackageReference Include="Spectre.Console.Cli" Version="0.50.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="GitVersion.MsBuild" Version="6.3.0" PrivateAssets="all"/>
+        <EmbeddedResource Update="Resources\Strings.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources\Strings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Strings.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

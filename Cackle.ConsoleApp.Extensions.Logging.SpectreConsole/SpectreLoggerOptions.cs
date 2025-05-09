@@ -20,16 +20,16 @@ public class SpectreLoggerOptions
     ///     Backing field to <see cref="QueueFullMode" />.
     /// </summary>
     private SpectreLoggerQueueFullMode _queueFullMode = SpectreLoggerQueueFullMode.Wait;
-    
+
     /// <summary>
     ///     Gets or sets the log level for the logger.
     /// </summary>
-    public LogLevel LogLevel { get; set; }
+    public LogLevel LogLevel { get; set; } = LogLevel.Information;
 
     /// <summary>
     ///     Gets or sets value indicating the minimum level of messages that get written to <c>Console.Error</c>.
     /// </summary>
-    public LogLevel LogToStandardErrorThreshold { get; set; }
+    public LogLevel LogToStandardErrorThreshold { get; set; } = LogLevel.Error;
 
     /// <summary>
     ///     Gets or sets the desired console logger behavior when the queue becomes full.
