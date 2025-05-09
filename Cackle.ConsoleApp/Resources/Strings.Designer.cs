@@ -21,14 +21,14 @@ namespace Cackle.ConsoleApp {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Cackle_ConsoleApp {
+    internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Cackle_ConsoleApp() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace Cackle.ConsoleApp {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cackle.ConsoleApp.Cackle.ConsoleApp", typeof(Cackle_ConsoleApp).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cackle.ConsoleApp.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,20 +60,29 @@ namespace Cackle.ConsoleApp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum queue length for the SpectreConsole logger must be greater than 0..
+        ///   Looks up a localized string similar to Ctrl+C detected, cancelling operation....
         /// </summary>
-        internal static string ArgumentOutOfRange_MaxQueueLength {
+        internal static string Message_CancelKeyPress {
             get {
-                return ResourceManager.GetString("ArgumentOutOfRange_MaxQueueLength", resourceCulture);
+                return ResourceManager.GetString("Message_CancelKeyPress", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Queue modes supported by SpectreConsole is Wait or DropWrite..
+        ///   Looks up a localized string similar to Operation was cancelled by the user..
         /// </summary>
-        internal static string ArgumentOutOfRangeException_QueueFullMode {
+        internal static string Message_OperationCancelled {
             get {
-                return ResourceManager.GetString("ArgumentOutOfRangeException_QueueFullMode", resourceCulture);
+                return ResourceManager.GetString("Message_OperationCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to determine the process name. The process is not a .NET Core application..
+        /// </summary>
+        internal static string Message_ProcessName {
+            get {
+                return ResourceManager.GetString("Message_ProcessName", resourceCulture);
             }
         }
     }

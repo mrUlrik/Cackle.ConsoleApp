@@ -6,11 +6,9 @@ namespace Cackle.ConsoleApp;
 
 /// <summary>
 ///     An abstract asynchronous command that supports cancellation via a <see cref="CancellationToken" /> and handles
-///     Ctrl+C (CancelKeyPress) events gracefully.
+///     Ctrl+C (CancelKeyPress) events gracefully. This command uses <see cref="EmptyCommandSettings" />.
 /// </summary>
-/// <typeparam name="TSettings">The settings type for the command.</typeparam>
-public abstract class CancellableAsyncCommand<TSettings> : ICommand<TSettings>, IDisposable
-    where TSettings : CommandSettings
+public abstract class CancellableAsyncCommand : ICommand<EmptyCommandSettings>, IDisposable
 {
     private readonly CancellationTokenSource _cts = new();
     private bool _disposedValue;
@@ -26,33 +24,37 @@ public abstract class CancellableAsyncCommand<TSettings> : ICommand<TSettings>, 
     }
 
     /// <inheritdoc />
-    ValidationResult ICommand.Validate(CommandContext context, CommandSettings settings)
-    {
-        return Validate(context, (TSettings)settings);
-    }
-
-    /// <inheritdoc />
-    Task<int> ICommand.Execute(CommandContext context, CommandSettings settings)
-    {
-        return ((ICommand<TSettings>)this).Execute(context, (TSettings)settings);
-    }
-
-    /// <inheritdoc />
-    Task<int> ICommand<TSettings>.Execute(CommandContext context, TSettings settings)
+    Task<int> ICommand<EmptyCommandSettings>.Execute(CommandContext context, EmptyCommandSettings settings)
     {
         try
         {
-            return ExecuteAsync(context, settings, _cts.Token);
+            // Execute the asynchronous command with the provided context and cancellation token.
+            return ExecuteAsync(context, _cts.Token);
         }
         catch (OperationCanceledException ex)
         {
+            // If the operation is cancelled, write a message to the console.
             AnsiConsole.MarkupLine(ResMan.GetString("Message_OperationCancelled"));
             return Task.FromResult(ex.HResult);
         }
         finally
         {
+            // Ensure resources are disposed of after execution.
             Dispose();
         }
+    }
+
+    /// <inheritdoc />
+    Task<int> ICommand.Execute(CommandContext context, CommandSettings settings)
+    {
+        // Explicitly cast the command to its generic interface to call the generic Execute method.
+        return ((ICommand<EmptyCommandSettings>)this).Execute(context, (EmptyCommandSettings)settings);
+    }
+
+    /// <inheritdoc />
+    ValidationResult ICommand.Validate(CommandContext context, CommandSettings settings)
+    {
+        return ValidationResult.Success();
     }
 
     /// <inheritdoc />
@@ -62,6 +64,16 @@ public abstract class CancellableAsyncCommand<TSettings> : ICommand<TSettings>, 
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+
+    /// <summary>
+    ///     Executes the command asynchronously. This method must be implemented by derived classes.
+    /// </summary>
+    /// <param name="context">The command context.</param>
+    /// <param name="cancellationToken">
+    ///     A <see cref="CancellationToken" /> that can be used to cancel the asynchronous
+    ///     operation.
+    /// </param>
+    protected abstract Task<int> ExecuteAsync(CommandContext context, CancellationToken cancellationToken);
 
     /// <summary>
     ///     Handles the <see cref="Console.CancelKeyPress" /> event.
@@ -80,28 +92,6 @@ public abstract class CancellableAsyncCommand<TSettings> : ICommand<TSettings>, 
         // Prevent the default behavior of terminating the process immediately
         e.Cancel = true;
     }
-
-    /// <summary>
-    ///     Validates the command settings. This method can be overridden in derived classes.
-    /// </summary>
-    /// <param name="context">The command context.</param>
-    /// <param name="settings">The command settings.</param>
-    /// <returns>A <see cref="ValidationResult" /> indicating whether the settings are valid.</returns>
-    protected virtual ValidationResult Validate(CommandContext context, TSettings settings)
-    {
-        return ValidationResult.Success();
-    }
-
-    /// <summary>
-    ///     Executes the command asynchronously. This method must be implemented by derived classes.
-    /// </summary>
-    /// <param name="context">The command context.</param>
-    /// <param name="settings">The command settings.</param>
-    /// <param name="cancellationToken">
-    ///     A <see cref="CancellationToken" /> that can be used to cancel the asynchronous operation.
-    /// </param>
-    public abstract Task<int> ExecuteAsync(CommandContext context, TSettings settings,
-        CancellationToken cancellationToken);
 
     /// <summary>
     ///     Releases unmanaged and optionally managed resources.

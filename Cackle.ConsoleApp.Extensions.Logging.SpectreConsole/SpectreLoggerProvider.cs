@@ -70,6 +70,7 @@ public class SpectreLoggerProvider : ILoggerProvider, ISupportExternalScope
         _optionsReloadToken?.Dispose();
         _exceptionReloadToken?.Dispose();
         _messageQueue.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc />

@@ -21,7 +21,7 @@ public class ConsoleHostBuilder : IConsoleHostBuilder, IConfigureConsoleHostBuil
     /// </summary>
     /// <param name="commandAppConfig">An action to configure the Spectre.Console <see cref="CommandApp" />.</param>
     /// <param name="services">The <see cref="IServiceCollection" /> to register services.</param>
-    /// <param name="config">The <see cref="IConfiguration" /> instance.</param>
+    /// <param name="config">The <see cref="Microsoft.Extensions.Configuration.IConfiguration" /> instance.</param>
     private ConsoleHostBuilder(Action<IConfigurator> commandAppConfig, IServiceCollection services,
         IConfiguration config)
     {
@@ -89,7 +89,7 @@ public class ConsoleHostBuilder : IConsoleHostBuilder, IConfigureConsoleHostBuil
         return this;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IConsoleHostBuilder.Build" />
     public ConsoleHost Build()
     {
         _services.Add(ServiceDescriptor.Singleton<IAnsiConsole>(sp =>
@@ -135,6 +135,10 @@ public class ConsoleHostBuilder : IConsoleHostBuilder, IConfigureConsoleHostBuil
         services.AddSingleton<IAnsiConsoleFactory, AnsiConsoleFactory>();
 
         // Create and return a new ConsoleHostBuilder instance.
-        return new ConsoleHostBuilder(configureApp, services, config);
+        return new ConsoleHostBuilder(c =>
+        {
+            c.Settings.ApplicationName = HostEnv.ProcessName;
+            configureApp(c);
+        }, services, config);
     }
 }

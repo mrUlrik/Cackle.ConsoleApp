@@ -4,12 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cackle.ConsoleApp", "Cackle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cackle.ConsoleApp.Extensions.Logging.SpectreConsole", "Cackle.ConsoleApp.Extensions.Logging.SpectreConsole\Cackle.ConsoleApp.Extensions.Logging.SpectreConsole.csproj", "{ABAAA06B-323A-4977-91A1-75E754468C76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console", "..\..\External\spectre.console\src\Spectre.Console\Spectre.Console.csproj", "{D4809FAB-77B1-4D3E-AD24-84F03C0085E9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console.Cli", "..\..\External\spectre.console\src\Spectre.Console.Cli\Spectre.Console.Cli.csproj", "{6D4D4C13-0757-478F-9166-9801EB4C80BB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreMessingAround", "..\..\Scratch\SpectreMessingAround\SpectreMessingAround\SpectreMessingAround.csproj", "{DAAE2992-1648-47BC-9B83-03E711613039}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,17 +18,5 @@ Global
 		{ABAAA06B-323A-4977-91A1-75E754468C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAAA06B-323A-4977-91A1-75E754468C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAAA06B-323A-4977-91A1-75E754468C76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4809FAB-77B1-4D3E-AD24-84F03C0085E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4809FAB-77B1-4D3E-AD24-84F03C0085E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4809FAB-77B1-4D3E-AD24-84F03C0085E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4809FAB-77B1-4D3E-AD24-84F03C0085E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D4D4C13-0757-478F-9166-9801EB4C80BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D4D4C13-0757-478F-9166-9801EB4C80BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D4D4C13-0757-478F-9166-9801EB4C80BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D4D4C13-0757-478F-9166-9801EB4C80BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAAE2992-1648-47BC-9B83-03E711613039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAAE2992-1648-47BC-9B83-03E711613039}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAAE2992-1648-47BC-9B83-03E711613039}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAAE2992-1648-47BC-9B83-03E711613039}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

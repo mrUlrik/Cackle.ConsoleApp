@@ -24,4 +24,7 @@
     <data name="Message_CancelKeyPress" xml:space="preserve">
         <value>Ctrl+C detected, cancelling operation...</value>
     </data>
+    <data name="Message_ProcessName" xml:space="preserve">
+        <value>Unable to determine the process name. The process is not a .NET Core application.</value>
+    </data>
 </root>

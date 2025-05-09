@@ -1,7 +1,6 @@
 ﻿// This code is derived from the Microsoft.Extensions.Logging library,
 // which is licensed under the MIT License. See LICENSE file for details.
 
-using System.Runtime.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Options;

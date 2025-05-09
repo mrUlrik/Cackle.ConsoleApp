@@ -43,6 +43,7 @@ public class SpectreFormatter : IDisposable
     public void Dispose()
     {
         _optionsReloadToken?.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -81,15 +82,15 @@ public class SpectreFormatter : IDisposable
         else
         {
 #endif
-            // Format the log message using the provided formatter delegate.
-            var message = logEntry.Formatter(logEntry.State, logEntry.Exception);
+        // Format the log message using the provided formatter delegate.
+        var message = logEntry.Formatter(logEntry.State, logEntry.Exception);
 
-            // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            if (logEntry.Exception is null && message is null) return;
-            // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (logEntry.Exception is null && message is null) return;
+        // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-            WriteInternal(scopeProvider, textWriter, message, logEntry.LogLevel, logEntry.EventId.Id, logEntry.Category,
-                GetCurrentDateTime());
+        WriteInternal(scopeProvider, textWriter, message, logEntry.LogLevel, logEntry.EventId.Id, logEntry.Category,
+            GetCurrentDateTime());
 #if NET9_0
         }
 #endif
@@ -240,7 +241,6 @@ public class SpectreFormatter : IDisposable
             LogLevel.Warning => FormatterOptions.WarningMarkup,
             LogLevel.Error => FormatterOptions.ErrorMarkup,
             LogLevel.Critical => FormatterOptions.CriticalMarkup,
-            LogLevel.None => string.Empty,
             _ => string.Empty
         };
     }
