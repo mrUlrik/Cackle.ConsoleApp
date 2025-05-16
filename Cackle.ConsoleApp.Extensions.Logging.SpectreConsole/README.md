@@ -1,7 +1,7 @@
 ﻿# Cackle.ConsoleApp.Extensions.Logging.SpectreConsole
 
-[![Nuget](https://img.shields.io/nuget/v/Cackle.ConsoleApp.Extensions.Logging.SpectreConsole)](https://www.nuget.org/packages/Cackle.ConsoleApp.Extensions.Logging.SpectreConsole)
-[![License](https://img.shields.io/github/license/cackledigital/Cackle.ConsoleApp)](https://github.com/cackledigital/Cackle.ConsoleApp/blob/main/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/Cackle.ConsoleApp)](https://www.nuget.org/packages/Cackle.ConsoleApp.Extensions.Logging.SpectreConsole)
+[![License](https://img.shields.io/github/license/mrUlrik/Cackle.ConsoleApp)](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/LICENSE)
 
 This library provides a logging provider for [Microsoft.Extensions.Logging](https://docs.microsoft.com/en-us/dotnet/core/extensions/logging) that utilizes the rich console output capabilities of [Spectre.Console](https://spectreconsole.net/). It's designed to seamlessly integrate with the `Cackle.ConsoleApp` framework, offering styled and informative console logging within your Spectre.Console-powered applications.
 

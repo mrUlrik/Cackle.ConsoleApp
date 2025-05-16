@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SimpleExample": {
-      "commandName": "Project",
-      "commandLineArgs": "-v -t world"
-    }
-  }
-}

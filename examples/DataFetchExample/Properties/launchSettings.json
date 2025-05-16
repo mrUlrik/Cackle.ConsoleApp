@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "DataFetchExample": {
-      "commandName": "Project",
-      "commandLineArgs": "random -t year"
-    }
-  }
-}

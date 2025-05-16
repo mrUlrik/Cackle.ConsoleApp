@@ -1,7 +1,7 @@
 ﻿# Cackle.ConsoleApp
 
 [![Nuget](https://img.shields.io/nuget/v/Cackle.ConsoleApp)](https://www.nuget.org/packages/Cackle.ConsoleApp)
-[![License](https://img.shields.io/github/license/mrUlrik/Cackle.ConsoleApp)](https://github.com/cackledigital/Cackle.ConsoleApp/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/mrUlrik/Cackle.ConsoleApp)](https://github.com/mrUlrik/Cackle.ConsoleApp/blob/main/LICENSE)
 
 `Cackle.ConsoleApp` is a lightweight library that enhances the [Spectre.Console](https://spectreconsole.net/) framework by introducing features commonly found in modern .NET console applications, such as:
 
